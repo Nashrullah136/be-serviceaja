@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Motor;
+use App\Models\Schedule;
+use App\Models\User;
 use App\Policies\MotorPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -28,6 +30,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('update-schedule', function (User $user, Schedule $schedule){
+            return $user->id === $schedule->motor->user_id;
+        });
 
     }
 }
