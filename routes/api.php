@@ -21,9 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::controller(ShopController::class)->group(function () {
     Route::get('/shops', 'index');
@@ -44,6 +41,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
     Route::delete('/logout', 'logout')->middleware('auth:sanctum');
+    Route::get('/user', 'user')->middleware('auth:sanctum');
 });
 
 Route::controller(MotorController::class)->middleware('auth:sanctum')->group(function () {
@@ -52,6 +50,7 @@ Route::controller(MotorController::class)->middleware('auth:sanctum')->group(fun
     Route::get('/motors/{motor}/schedule', 'schedule');
     Route::post('/motors', 'store');
     Route::put('/motors/{motor}', 'update');
+    Route::put('/schedules/{schedule}', 'updateSchedule');
     Route::delete('/motors/{motor}', 'destroy');
 });
 
