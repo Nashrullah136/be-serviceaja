@@ -9,11 +9,11 @@ class Schedule extends Model
 {
     use HasFactory;
 
-    public function motors(){
+    public function motor(){
         return $this->belongsTo(Motor::class);
     }
 
-    public function spareparts(){
+    public function sparepart(){
         return $this->belongsTo(Sparepart::class);
     }
 }

@@ -9,7 +9,7 @@ class Sparepart extends Model
 {
     use HasFactory;
 
-    public function schedules(){
+    public function schedule(){
         return $this->hasMany(Schedule::class);
     }
 }
