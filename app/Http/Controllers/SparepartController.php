@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SparepartRequest;
+use App\Http\Resources\SparepartResource;
 use App\Models\Sparepart;
 use Illuminate\Http\Request;
 
 class SparepartController extends Controller
 {
+
+    // public function
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,7 @@ class SparepartController extends Controller
      */
     public function index()
     {
-        return Sparepart::all();
+        return SparepartResource::collection(Sparepart::all());
     }
 
     /**
@@ -23,13 +27,13 @@ class SparepartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SparepartRequest $request)
     {
         $sparepart = new Sparepart();
         $sparepart->name = $request->name;
         $sparepart->period = $request->period;
         $sparepart->save();
-        return $sparepart;
+        return new SparepartResource($sparepart);
     }
 
     /**
@@ -40,7 +44,7 @@ class SparepartController extends Controller
      */
     public function show(Sparepart $sparepart)
     {
-        return $sparepart;
+        return new SparepartResource($sparepart);
     }
 
     /**
@@ -50,12 +54,12 @@ class SparepartController extends Controller
      * @param  \App\Models\Sparepart  $sparepart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sparepart $sparepart)
+    public function update(SparepartRequest $request, Sparepart $sparepart)
     {
         $sparepart->name = $request->name;
         $sparepart->period = $request->period;
         $sparepart->save();
-        return $sparepart;
+        return new SparepartResource($sparepart);
     }
 
     /**
@@ -67,6 +71,6 @@ class SparepartController extends Controller
     public function destroy(Sparepart $sparepart)
     {
         $sparepart->delete();
-        return $sparepart;
+        return new SparepartResource($sparepart);
     }
 }

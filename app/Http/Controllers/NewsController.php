@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsRequest;
+use App\Http\Resources\NewsResource;
 use App\Models\Catalog;
 use App\Models\News;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class NewsController extends Controller
     public function index()
     {
         //
-        return News::all();
+        return NewsResource::collection(News::all());
     }
 
     /**
@@ -25,14 +27,14 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
         $news = new News();
         $news->title = $request->title;
         $news->body = $request->body;
         $news->image = $request->image;
         $news->save();
-        return $news;
+        return new NewsResource($news);
     }
 
     /**
@@ -43,7 +45,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        return $news;
+        return new NewsResource($news);
     }
 
     /**
@@ -53,13 +55,13 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(NewsRequest $request, News $news)
     {
         $news->title = $request->title;
         $news->body = $request->body;
         $news->image = $request->image;
         $news->save();
-        return $news;
+        return new NewsResource($news);
     }
 
     /**
@@ -71,6 +73,6 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         $news->delete();
-        return $news;
+        return new NewsResource($news);
     }
 }

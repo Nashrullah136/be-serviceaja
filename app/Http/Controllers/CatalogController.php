@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CatalogRequest;
+use App\Http\Resources\CatalogResource;
 use App\Models\Catalog;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,7 @@ class CatalogController extends Controller
     public function index()
     {
         //
-        return Catalog::all();
+        return CatalogResource::collection(Catalog::all());
     }
 
     /**
@@ -24,15 +26,15 @@ class CatalogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CatalogRequest $request)
     {
         $catalog = new Catalog();
         $catalog->name = $request->name;
-        $catalog->harga = $request->harga;
+        $catalog->price = $request->price;
         $catalog->category = $request->category;
-        $catalog->iamge = $request->iamge;
+        $catalog->image = $request->image;
         $catalog = $catalog->save();
-        return $catalog;
+        return new CatalogResource($catalog);
     }
 
     /**
@@ -43,7 +45,7 @@ class CatalogController extends Controller
      */
     public function show(Catalog $catalog)
     {
-        return $catalog;
+        return new CatalogResource($catalog);
     }
 
     /**
@@ -53,14 +55,14 @@ class CatalogController extends Controller
      * @param  \App\Models\Catalog  $catalog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Catalog $catalog)
+    public function update(CatalogRequest $request, Catalog $catalog)
     {
         $catalog->name = $request->name;
         $catalog->price = $request->price;
         $catalog->category = $request->category;
-        $catalog->iamge = $request->iamge;
+        $catalog->image = $request->image;
         $catalog = $catalog->save();
-        return $catalog;
+        return new CatalogResource($catalog);
     }
 
     /**
@@ -72,6 +74,6 @@ class CatalogController extends Controller
     public function destroy(Catalog $catalog)
     {
         $catalog->delete();
-        return $catalog;
+        return new CatalogResource($catalog);
     }
 }

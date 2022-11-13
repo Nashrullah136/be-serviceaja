@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShopRequest;
+use App\Http\Resources\ShopResource;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return Shop::all();
+        return ShopResource::collection(Shop::all());
     }
 
     /**
@@ -23,14 +25,14 @@ class ShopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShopRequest $request)
     {
         $shop = new Shop();
         $shop->name = $request->name;
         $shop->lat = $request->lat;
         $shop->lng = $request->lng;
         $shop->save();
-        return $shop;
+        return new ShopResource($shop);
     }
 
     /**
@@ -41,7 +43,7 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        return $shop;
+        return new ShopResource($shop);
     }
 
     /**
@@ -51,13 +53,13 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shop $shop)
+    public function update(ShopRequest $request, Shop $shop)
     {
         $shop->name = $request->name;
         $shop->lat = $request->lat;
         $shop->lng = $request->lng;
         $shop->save();
-        return $shop;
+        return new ShopResource($shop);
     }
 
     /**
@@ -69,6 +71,6 @@ class ShopController extends Controller
     public function destroy(Shop $shop)
     {
         $shop->delete();
-        return $shop;
+        return new ShopResource($shop);
     }
 }

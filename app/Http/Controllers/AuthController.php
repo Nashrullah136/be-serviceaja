@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
         $user = new User();
         $user->name = $request->name;
@@ -22,7 +25,7 @@ class AuthController extends Controller
         return $user->createToken($request->device_name)->plainTextToken;
     }
 
-    public function login(Request $request)
+    public function login(LoginUserRequest $request)
     {
         $user = User::where('email', $request->email)->first();
 
@@ -38,5 +41,9 @@ class AuthController extends Controller
     public function logout(Request $request){
         $tokenId = $request->user()->currentAccessToken()->id;
         $request->user()->tokens()->where('id', $tokenId)->delete();
+    }
+
+    public function user(Request $request){
+        return new UserResource($request->user());
     }
 }
