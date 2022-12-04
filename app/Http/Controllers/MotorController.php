@@ -34,31 +34,31 @@ class MotorController extends Controller
     public function store(MotorRequest $request)
     {
         $motor = new Motor();
-        $motor->brand = $request->brand;
-        $motor->color = $request->color;
+        $motor->year = $request->year;
+        $motor->series = $request->series;
+        $motor->type = $request->type;
         $motor->purchase_date = $request->purchase_date;
         $motor->plate_number = $request->plate_number;
         $motor->user_id = Auth::user()->id;
         $motor->save();
-        MotorCreated::dispatch($motor);
         return new MotorResource($motor);
     }
 
-    public function schedule(Motor $motor){
-        $this->authorize('view', $motor);
-        $schedules = Schedule::selectRaw('schedules.id as id, spareparts.name as name, schedules.update + INTERVAL (spareparts.period*1) MONTH as period')
-                               ->where('motor_id', $motor->id)->rightJoin('spareparts', 'schedules.sparepart_id', '=', 'spareparts.id')->get();
-        return $schedules;
-    }
+    // public function schedule(Motor $motor){
+    //     $this->authorize('view', $motor);
+    //     $schedules = Schedule::selectRaw('schedules.id as id, spareparts.name as name, schedules.update + INTERVAL (spareparts.period*1) MONTH as period')
+    //                            ->where('motor_id', $motor->id)->rightJoin('spareparts', 'schedules.sparepart_id', '=', 'spareparts.id')->get();
+    //     return $schedules;
+    // }
 
-    public function updateSchedule(Request $request, Schedule $schedule){
-        Gate::authorize('update-schedule', $schedule);
-        $validated = $request->validate([
-            'update' => ['required', 'date']
-        ]);
-        $schedule->update = $request->update;
-        $schedule->save();
-    }
+    // public function updateSchedule(Request $request, Schedule $schedule){
+    //     Gate::authorize('update-schedule', $schedule);
+    //     $validated = $request->validate([
+    //         'update' => ['required', 'date']
+    //     ]);
+    //     $schedule->update = $request->update;
+    //     $schedule->save();
+    // }
 
     /**
      * Display the specified resource.
@@ -82,8 +82,9 @@ class MotorController extends Controller
     public function update(MotorRequest $request, Motor $motor)
     {
         $this->authorize('update', $motor);
-        $motor->brand = $request->brand;
-        $motor->color = $request->color;
+        $motor->year = $request->year;
+        $motor->series = $request->series;
+        $motor->type = $request->type;
         $motor->purchase_date = $request->purchase_date;
         $motor->plate_number = $request->plate_number;
         $motor->save();

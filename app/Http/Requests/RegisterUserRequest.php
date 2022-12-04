@@ -28,7 +28,8 @@ class RegisterUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:App\Models\User,email'],
             'phone_number' => ['required', 'numeric', 'digits_between:10,13'],
-            'password' => ['required', 'string', 'gte:8'],
+            'password' => ['required', 'string', 'min:8'],
+            'device_name' => ['required', 'string']
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class NewsRequest extends FormRequest
 {
@@ -26,7 +27,8 @@ class NewsRequest extends FormRequest
         return [
             'title' => ['required', 'string'],
             'body' => ['required', 'string'],
-            'image' => ['required', 'url']
+            'image' => ['required', 'url'],
+            'category' => ['required', Rule::in('SERVICE', 'OTOMOTIF')]
         ];
     }
 }

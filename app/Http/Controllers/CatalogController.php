@@ -14,10 +14,15 @@ class CatalogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return CatalogResource::collection(Catalog::all());
+        $category = $request->query('category', 'all');
+        $result = Catalog::select('*');
+        if($category !== 'all'){
+            $result = $result->where('category', $category);
+        }
+        $result = $result->orderBy('name')->get();
+        return CatalogResource::collection($result);
     }
 
     /**
@@ -33,6 +38,7 @@ class CatalogController extends Controller
         $catalog->price = $request->price;
         $catalog->category = $request->category;
         $catalog->image = $request->image;
+        $catalog->number_series = $request->number_series;
         $catalog = $catalog->save();
         return new CatalogResource($catalog);
     }

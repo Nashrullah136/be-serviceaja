@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\MotorController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SparepartController;
 use App\Models\Shop;
@@ -54,14 +55,19 @@ Route::controller(MotorController::class)->middleware('auth:sanctum')->group(fun
     Route::delete('/motors/{motor}', 'destroy');
 });
 
+Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function (){
+    Route::get('/services', 'index');
+    Route::post('/services', 'store');
+});
+
 Route::middleware(['auth:sanctum', 'admin'])->group(function(){
-    Route::controller(SparepartController::class)->group(function(){
-        Route::get('/spareparts', 'index');
-        Route::get('/spareparts/{sparepart}', 'show');
-        Route::post('/spareparts', 'store');
-        Route::put('/spareparts/{sparepart}', 'update');
-        Route::delete('/spareparts/{sparepart}', 'destroy');
-    });
+    // Route::controller(SparepartController::class)->group(function(){
+    //     Route::get('/spareparts', 'index');
+    //     Route::get('/spareparts/{sparepart}', 'show');
+    //     Route::post('/spareparts', 'store');
+    //     Route::put('/spareparts/{sparepart}', 'update');
+    //     Route::delete('/spareparts/{sparepart}', 'destroy');
+    // });
     Route::controller(CatalogController::class)->group(function () {
         Route::post('/catalogs', 'store');
         Route::put('/catalogs/{catalog}', 'update');

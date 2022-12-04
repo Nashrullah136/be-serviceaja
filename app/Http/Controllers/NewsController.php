@@ -7,6 +7,7 @@ use App\Http\Resources\NewsResource;
 use App\Models\Catalog;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -15,10 +16,15 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return NewsResource::collection(News::all());
+        $category = $request->query('category', 'all');
+        $result = News::select('*');
+        if($category !== 'all'){
+            $result = $result->where('category', $category);
+        }
+        $result = $result->orderByDesc('updated_at')->get();
+        return NewsResource::collection($result);
     }
 
     /**

@@ -24,10 +24,11 @@ class MotorRequest extends FormRequest
     public function rules()
     {
         return [
-            'brand' => ['required', 'string'],
-            'color' => ['required', 'string'],
+            'year' => ['required', 'integer'],
+            'series' => ['required', 'string'],
+            'type' => ['required', 'string'],
             'purchase_date' => ['required', 'date'],
-            'plate_number' => ['required', 'string']
+            'plate_number' => ['string']
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Http\Middleware\Admin;
+use App\Models\Catalog;
+use App\Models\News;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -25,5 +27,9 @@ class DatabaseSeeder extends Seeder
         $user->password = Hash::make('admin-serviceaja');
         $user->role = User::ADMIN;
         $user->save();
+        News::factory()->count(5)->otomotif()->create();
+        News::factory()->count(5)->service()->create();
+        Catalog::factory()->count(3)->oli()->create();
+        Catalog::factory()->count(3)->sparepart()->create();
     }
 }

@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('motors', function (Blueprint $table) {
             $table->id();
-            $table->string('brand');
-            $table->string('color');
-            $table->date('purchase_date');
+            $table->string('year');
+            $table->string('series');
+            $table->string('type');
             $table->string('plate_number');
+            $table->date('purchase_date');
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
