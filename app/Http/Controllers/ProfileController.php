@@ -23,9 +23,9 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         if (!Hash::check($request->old_password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            throw response([
+                'email' => 'The provided credentials are incorrect.'
+            ], 401);
         }
         $user->password = Hash::make($request->new_password);
         $user->save();
