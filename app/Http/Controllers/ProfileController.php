@@ -23,7 +23,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         if (!Hash::check($request->old_password, $user->password)) {
-            throw response([
+            return response([
                 'email' => 'The provided credentials are incorrect.'
             ], 401);
         }
