@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\MotorController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SparepartController;
@@ -58,6 +59,11 @@ Route::controller(MotorController::class)->middleware('auth:sanctum')->group(fun
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function (){
     Route::get('/services', 'index');
     Route::post('/services', 'store');
+});
+
+Route::controller(ProfileController::class)->middleware('auth:sanctum')->group(function (){
+    Route::post('/profile', 'UpdateProfile');
+    Route::post('/change-password', 'ChangePassword');
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function(){
